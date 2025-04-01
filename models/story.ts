@@ -1,4 +1,5 @@
 import mongoose, {Schema, Document, ObjectId} from "mongoose";
+import { number } from "zod";
 // import { string } from "zod";
 // import { boolean, string } from "zod";
 
@@ -19,6 +20,7 @@ export interface Story extends Document {
         likes : number,
     }],
     isPublished : boolean,
+    points : number
 }
 
 const StorySchema: Schema<Story> = new Schema({
@@ -75,8 +77,12 @@ const StorySchema: Schema<Story> = new Schema({
     isPublished : {
         type : Boolean,
         default : false
+    },
+    points : {
+        type : Number,
+        default : 0
     }
-})
+},{timestamps : true});
 
 const StoryModel = (mongoose.models.Story as mongoose.Model<Story>) || mongoose.model<Story>("Story",StorySchema)
 export default StoryModel

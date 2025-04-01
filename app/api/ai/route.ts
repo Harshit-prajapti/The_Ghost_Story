@@ -7,14 +7,18 @@ const together = new Together({
 });
 
 // Together ai = cb05e32c329a8435809fc0998595160e757bebb990f9fa665144ef0ba41a78a6
+interface data {
+    content : string
+}
 export async function POST(req:Request){
-    const formData = req.json();
-    console.log(formData)
+    const formData = req.formData();
+    const content = (await formData).get('content') as string
+    // console.log(content)
     const response = await together.chat.completions.create({
-        messages: [{"role": "user", "content": `Can you create a short Ghost story for me`}],
+        messages: [{"role": "user", "content": `${content}`}],
         model: "meta-llama/Llama-3.3-70B-Instruct-Turbo",
     });
     const message = response?.choices?.[0]?.message?.content ?? "Default message";
     console.log(message)
-    return Response.json(new ApiResponse(200,response,"data get successfully from the ai"))
+    return Response.json(new ApiResponse(200,message,"data get successfully from the ai"))
 }

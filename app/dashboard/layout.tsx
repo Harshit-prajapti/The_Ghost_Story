@@ -13,7 +13,7 @@ export default function RootLayout({children} : {children : React.ReactNode}){
         <Sidebar />
 
         {/* Main content area (Takes remaining space) */}
-        <main className="flex-1 p-4 overflow-auto">{children}</main>
+        <main className="flex-1 p-4 overflow-auto pt-[60px] ml-12">{children}</main>
       </div>
     </div>
     )

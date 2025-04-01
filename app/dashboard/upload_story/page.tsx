@@ -166,24 +166,7 @@ const UploadStory = () => {
           </p>
 
           {/* Images Field */}
-          <FormField
-            control={form.control}
-            name="images"
-            render={({ field: { onChange, ...rest } }) => (
-              <FormItem>
-                <FormLabel>Upload Images</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={(e) => onChange([...e.target.files!])}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          
           <FormField
             control={form.control}
             name="publish"
@@ -207,9 +190,9 @@ const UploadStory = () => {
 
       {message && <p className="mt-4 text-center font-bold">{message}</p>}
     </div>) : (<>
-      <div className="mt-18 bg-gradient-to-br from-gray-900 to-black text-white p-8 rounded-3xl shadow-2xl max-w-2xl mx-auto border border-gray-700 overflow-hidden relative">
+      <div className="mt-12 bg-gradient-to-r from-purple-700 via-indigo-600 to-blue-500 text-white p-8 rounded-3xl shadow-2xl max-w-2xl mx-auto border border-gray-300 backdrop-blur-xl overflow-hidden relative transform hover:scale-105 transition-all duration-300">
       {res?.thumbnail && (
-        <div className="w-full h-72 relative mb-6 rounded-2xl overflow-hidden shadow-lg">
+        <div className="w-full h-72 relative mb-6 rounded-2xl overflow-hidden shadow-lg border-4 border-white">
           <Image
             src={res?.thumbnail}
             alt={res?.title}
@@ -219,28 +202,37 @@ const UploadStory = () => {
           />
         </div>
       )}
-      <h2 className="text-4xl font-extrabold mb-4 text-indigo-400 drop-shadow-lg">{res?.title}</h2>
-      <p className="text-gray-300 mb-6 text-lg leading-relaxed">{res?.content}</p>
-      <div className="flex justify-between items-center text-gray-400 text-md mb-6">
+
+      <h2 className="text-4xl font-extrabold mb-4 text-yellow-300 drop-shadow-lg tracking-wide">
+        {res?.title}
+      </h2>
+      <p className="text-gray-200 mb-6 text-lg leading-relaxed bg-white/10 p-4 rounded-xl shadow-md">
+        {res?.content}
+      </p>
+
+      <div className="flex justify-between items-center text-gray-100 text-md mb-6 bg-black/30 p-3 rounded-xl shadow-md">
         <span className="flex items-center gap-2">
-          <FaEye className="text-yellow-400 text-xl" /> {res?.views}
+          <FaEye className="text-yellow-400 text-xl animate-pulse" /> {res?.views}
         </span>
         <span className="flex items-center gap-2">
-          <FaHeart className="text-red-500 text-xl" /> {res?.likes}
+          <FaHeart className="text-red-500 text-xl animate-bounce" /> {res?.likes}
         </span>
         <span className="flex items-center gap-2">
           <FaComment className="text-blue-400 text-xl" /> {res?.comments.length}
         </span>
       </div>
-      <div className="flex justify-between items-center border-t border-gray-700 pt-4">
+
+      <div className="flex justify-between items-center border-t border-white/20 pt-4">
         <span
-          className={`px-4 py-2 rounded-lg text-lg font-semibold tracking-wide shadow-md transition-all ${
-            res?.isPublished ? "bg-green-600" : "bg-red-600"
+          className={`px-6 py-2 rounded-lg text-lg font-semibold tracking-wide shadow-lg transition-all ${
+            res?.isPublished ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"
           }`}
         >
           {res?.isPublished ? "Published" : "Unpublished"}
         </span>
-        <span className="text-md text-gray-400 font-medium">📅 24/03/2005</span>
+        <span className="text-md text-gray-200 font-medium bg-white/10 px-3 py-1 rounded-md shadow-sm">
+          📅 24/03/2005
+        </span>
       </div>
     </div>
     </>)}

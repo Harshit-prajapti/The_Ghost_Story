@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import UserModel from "@/models/user";
 import dbConnect from "@/lib/db";
 import bcrypt from "bcrypt"
+import ApiResponse from "@/lib/apiResponse";
 export const options: NextAuthOptions = {
   providers: [
     GitHUbProvider({
@@ -27,19 +28,19 @@ export const options: NextAuthOptions = {
       },
       async authorize(credentials) {
         await dbConnect();
-        console.log("Creentiilas are : ",credentials);
+        // console.log("Creentiilas are : ",credentials);
         const user = await UserModel.findOne({
           username: credentials?.username,
         }).lean();
         console.log("This is the user", user);
         if (!user) {
-          throw new Error("User not found");
+          throw Response.json(new ApiResponse(400,"Incorrected username or password"));
         }
         console.log("Password matching...");
         const isMatch = await bcrypt.compare(credentials?.password as string,user.password as string)
         console.log(isMatch)
         if (!isMatch) {
-          throw new Error("Incorrect password!");
+          throw new Error("Invalid username or password")
         }
         return {
           id: user._id.toString(),
@@ -53,7 +54,7 @@ export const options: NextAuthOptions = {
   pages: {
     signIn: "/api/login",
     signOut: "/api/signOut",
-    error: "/error",
+    error: "/api/error",
   },
   session: {
     strategy: "jwt",
@@ -93,11 +94,9 @@ export const options: NextAuthOptions = {
         token.username = user.name;
         token.email = user.email;
       }
-      // console.log("Token after update",token)
       return token;
     },
     async session({ session, token }) {
-      // console.log("Session before update", session);
       const dbUser = await UserModel.findOne({ email: session?.user?.email });
       // console.log(dbUser)
       if (dbUser) {

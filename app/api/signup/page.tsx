@@ -88,7 +88,7 @@ export function SignupForm() {
       console.log(response);
       setLoading(false)
       window.alert("Otp Varifyed successfully");
-      router.replace("/")
+      router.replace("/api/completeProfile")
     } catch (error) {
       console.error(error);
     }

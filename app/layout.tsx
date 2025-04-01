@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import dotenv from "dotenv";
 import Navbar from "./components/Navbar";
+import { ThemeProvider } from "./context/ThemeContext";
 dotenv.config();
 import AuthProvider from "@/context/AuthProvider";
 
@@ -33,7 +34,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar/>
-        {children}       
+        <ThemeProvider>{children}</ThemeProvider>       
       </body>
       </AuthProvider>
     </html>
